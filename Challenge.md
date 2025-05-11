@@ -7,7 +7,7 @@ This is the time to show us your coding and analytical skills. The time limit fo
 
 The coding challenge test your skills on database, API design and implementation. The best approach would be completing the tasks in the given order. Further down this document, there is a list of use cases. Please develop the application based on these requirements.
 
-Photo Market is a photo marketplace where users can upload, showcase and sell their photos. The most liked photos can then be purchased by other users. **Only** the most liked photos are available for purchase by the community. When a user purchases their desired photo, they will receive a physical print delivered to their home.
+Photo Market is a photo marketplace where users can upload, showcase and sell their photos. The most liked photos can then be purchased by other users. **Only** the most liked photos are available for purchase by the community.
 
 
 ## Actors
@@ -40,7 +40,7 @@ Photo Market is a photo marketplace where users can upload, showcase and sell th
 
 ## Tasks
 
-1. Design a SQL or NoSql schema for this platform, considering all uses cases
+1. Design a SQL or NoSql schema for this platform, considering all use cases
 2. Design the API endpoints for the platform
 3. Implement an Authentication and Authorization system for the platform (User registration and login)
 4. Implement the Entities
