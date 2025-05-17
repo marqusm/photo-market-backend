@@ -1,0 +1,16 @@
+services:
+  photo-market-db:
+    image: postgres:17
+    container_name: photo-market-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: photo_market
+      POSTGRES_USER: photo_market
+      POSTGRES_PASSWORD: tRIcAliONoUN
+    ports:
+      - "5432:5432"
+#    volumes:
+#      - photo-market-db-data:/var/lib/postgresql/data
+
+volumes:
+  photo-market-db-data:
