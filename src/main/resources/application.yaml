@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: Photo Market Backend
+  datasource:
+    url: jdbc:postgresql://localhost:5432/photo_market
+    username: photo_market
+    password: tRIcAliONoUN
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
