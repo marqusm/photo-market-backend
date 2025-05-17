@@ -26,6 +26,18 @@ docker compose up -d
 docker compose down
 ```
 
+- Run project
+```Shell
+./gradlew bootRun
+```
+
+- Execute tests
+```Shell
+./gradlew test
+```
+
+Note: Make sure the database is up and running before running the app. For tests, database is not needed. In memory database will be automatically created.
+
 ## Database
 
 Database design is defined in the file [database.sql](docs/database.sql). Details are below, in the diagram. Postgres has been chosen as the database engine, since the entities are well-structured.
