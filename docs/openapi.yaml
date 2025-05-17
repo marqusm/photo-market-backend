@@ -1,0 +1,426 @@
+openapi: 3.1.0
+info:
+  title: Photo Market Backend API
+  version: 1.0.0
+  description: API for Photo Market Backend
+
+servers:
+  - url: http://localhost:8080/v1
+
+security:
+  - bearerAuth: []
+
+paths:
+  /auth/register:
+    post:
+      summary: Register a new account
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountCreate'
+      responses:
+        '201':
+          description: Registered
+
+  /auth/login:
+    post:
+      summary: Log in a user
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountRead'
+      responses:
+        '200':
+          description: Token returned
+
+  /photos:
+    post:
+      summary: Upload a photo
+      tags:
+        - Photos
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Photo'
+      responses:
+        '201':
+          description: Photo uploaded
+
+  /photos/{photo_id}:
+    patch:
+      summary: Edit photo details
+      tags:
+        - Photos
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: photo_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Photo'
+      responses:
+        '200':
+          description: Photo updated
+
+    delete:
+      summary: Delete a photo
+      tags:
+        - Photos
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: photo_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Photo deleted
+
+  /photos/{photo_id}/status:
+    patch:
+      summary: Approve or reject photo for display (Admin only)
+      tags:
+        - Photos
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: photo_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                displayable_status:
+                  type: string
+                  enum: [approved, rejected]
+      responses:
+        '200':
+          description: Status updated
+
+  /photos/{photo_id}/hashtags:
+    post:
+      summary: Add/edit hashtags on a photo
+      tags:
+        - Socials
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: photo_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                hashtags:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Hashtags updated
+
+    delete:
+      summary: Delete a hashtag
+      tags:
+        - Socials
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - in: path
+          name: photo_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Hashtag removed
+
+  /photos/{photo_id}/likes:
+    post:
+      summary: Like a photo
+      tags:
+        - Socials
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: photo_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '201':
+          description: Photo liked
+
+    delete:
+      summary: Unlike a photo
+      tags:
+        - Socials
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: photo_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Like removed
+
+  /hashtags/suggestions:
+    get:
+      summary: Suggest top hashtags
+      tags:
+        - Hashtags
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of suggestions
+
+  /orders:
+    post:
+      summary: Create a purchase order
+      tags:
+        - Orders
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '200':
+          description: Payment URL returned
+
+  /orders/{order_id}:
+    patch:
+      summary: Edit order details (Admin only)
+      tags:
+        - Orders
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - in: path
+          name: order_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '200':
+          description: Photo updated
+
+  /orders/processing:
+    post:
+      summary: Send order by email
+      tags:
+        - Orders
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                transaction_id:
+                  type: string
+                  format: uuid
+      responses:
+        '200':
+          description: Order processing started
+
+  /webhooks/transactions:
+    post:
+      summary: Handle transactions webhook
+      tags:
+        - Orders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Webhook processed
+
+  /reports/transactions:
+    get:
+      summary: Get transaction reports
+      tags:
+        - Reports
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: from
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: to
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: List of transactions
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    AccountCreate:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+          enum: [ ADMIN, SELLER, BUYER ]
+        name:
+          type: string
+    AccountRead:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        username:
+          type: string
+        role:
+          type: string
+          enum: [ ADMIN, SELLER, BUYER ]
+        name:
+          type: string
+
+    File:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        size:
+          type: integer
+          format: int64
+        content:
+          type: string
+          format: byte
+
+    Photo:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        account_id:
+          type: string
+          format: uuid
+        file_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        displayable_status:
+          type: string
+          enum: [ APPROVED, REJECTED, PENDING ]
+        purchasable_status:
+          type: string
+          enum: [ AVAILABLE, UNAVAILABLE ]
+        hashtags:
+          type: array
+          items:
+            type: string
+        likes:
+          type: integer
+
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        photo_id:
+          type: string
+          format: uuid
+        buyer_account_id:
+          type: string
+          format: uuid
+        buyer_name:
+          type: string
+        buyer_address:
+          type: string
+        buyer_email:
+          type: string
+        external_transaction_id:
+          type: string
+        amount:
+          type: integer
+        currency:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [ pending, completed, failed ]
