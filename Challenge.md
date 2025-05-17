@@ -19,7 +19,7 @@ Photo Market is a photo marketplace where users can upload, showcase and sell th
 3. **Photo seller user (PSU)**  
   He/She uploads the photos to be voted and possibly being sold once enough votes are cast. They can also like other photos as well.
 4. **Photo buyer user (PBU)**
-  This user buys a physical print of the photo. They can also like other photos as well.
+  This user buys a digital copy of the photo. They can also like other photos as well.
 
 
 ## Use cases
@@ -40,7 +40,7 @@ Photo Market is a photo marketplace where users can upload, showcase and sell th
 
 ## Tasks
 
-1. Design a SQL or NoSql schema for this platform, considering all use cases
+1. Design a Sql or NoSql schema for this platform, considering all use cases
 2. Design the API endpoints for the platform
 3. Implement an Authentication and Authorization system for the platform (User registration and login)
 4. Implement the Entities
