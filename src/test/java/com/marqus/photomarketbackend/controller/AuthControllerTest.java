@@ -1,8 +1,8 @@
 package com.marqus.photomarketbackend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.marqus.photomarketbackend.dto.LoginRequest;
-import com.marqus.photomarketbackend.dto.RegisterRequest;
+import com.marqus.photomarketbackend.dto.LoginRequestDto;
+import com.marqus.photomarketbackend.dto.RegisterRequestDto;
 import com.marqus.photomarketbackend.util.TestHelper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -34,7 +34,7 @@ class AuthControllerTest {
 
     @Test
     void register_ShouldReturn201() throws Exception {
-        var request = new RegisterRequest(
+        var request = new RegisterRequestDto(
                 generateRandomString(10),
                 generateRandomString(5),
                 "SELLER",
@@ -48,7 +48,7 @@ class AuthControllerTest {
 
     @Test
     void login_ShouldReturn200WithToken() throws Exception {
-        var registerRequest = new RegisterRequest(
+        var registerRequest = new RegisterRequestDto(
                 generateRandomString(10),
                 generateRandomString(5),
                 "SELLER",
@@ -56,7 +56,7 @@ class AuthControllerTest {
         );
         testHelper.register(registerRequest);
 
-        var loginRequest = new LoginRequest(registerRequest.username(), registerRequest.password());
+        var loginRequest = new LoginRequestDto(registerRequest.username(), registerRequest.password());
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginRequest)))
@@ -67,7 +67,7 @@ class AuthControllerTest {
 
     @Test
     void illegal_login_ShouldReturn403() throws Exception {
-        var registerRequest = new RegisterRequest(
+        var registerRequest = new RegisterRequestDto(
                 generateRandomString(10),
                 generateRandomString(5),
                 "SELLER",
@@ -75,7 +75,7 @@ class AuthControllerTest {
         );
         testHelper.register(registerRequest);// Register account
 
-        var loginRequest = new LoginRequest(registerRequest.username(), registerRequest.password() + "randomString");
+        var loginRequest = new LoginRequestDto(registerRequest.username(), registerRequest.password() + "randomString");
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginRequest)))

@@ -14,7 +14,7 @@ CREATE TABLE file
 (
     id      UUID PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
     size    BIGINT           NOT NULL,
-    content BYTEA            NOT NULL
+    content BYTEA            --NOT NULL
 );
 
 CREATE TABLE photo

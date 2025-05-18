@@ -1,8 +1,8 @@
 package com.marqus.photomarketbackend.service;
 
-import com.marqus.photomarketbackend.dto.LoginResponse;
-import com.marqus.photomarketbackend.dto.RegisterRequest;
-import com.marqus.photomarketbackend.dto.LoginRequest;
+import com.marqus.photomarketbackend.dto.LoginResponseDto;
+import com.marqus.photomarketbackend.dto.RegisterRequestDto;
+import com.marqus.photomarketbackend.dto.LoginRequestDto;
 import com.marqus.photomarketbackend.entity.Account;
 import com.marqus.photomarketbackend.entity.Role;
 import com.marqus.photomarketbackend.repository.AccountRepository;
@@ -21,21 +21,22 @@ public class AuthService {
     private PasswordEncoder passwordEncoder;
     private JwtUtils jwtUtils;
 
-    public void register(RegisterRequest req) {
+    public void register(RegisterRequestDto req) {
         if (accountRepository.findByUsername(req.username()).isPresent()) {
             throw new RuntimeException("Username already exists");
         }
 
-        Account account = new Account();
-        account.setUsername(req.username());
-        account.setPasswordHash(passwordEncoder.encode(req.password()));
-        account.setRole(Role.valueOf(req.role()));
-        account.setName(req.name());
+        Account account = Account.builder()
+                .username(req.username())
+                .passwordHash(passwordEncoder.encode(req.password()))
+                .role(Role.valueOf(req.role()))
+                .name(req.name())
+                .build();
 
         accountRepository.save(account);
     }
 
-    public LoginResponse login(LoginRequest req) {
+    public LoginResponseDto login(LoginRequestDto req) {
         Account acc = accountRepository.findByUsername(req.username())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
@@ -44,6 +45,6 @@ public class AuthService {
         }
 
         String token = jwtUtils.generateToken(acc);
-        return new LoginResponse(token);
+        return new LoginResponseDto(token);
     }
 }

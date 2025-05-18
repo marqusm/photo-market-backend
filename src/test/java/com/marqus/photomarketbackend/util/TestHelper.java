@@ -1,28 +1,35 @@
 package com.marqus.photomarketbackend.util;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.marqus.photomarketbackend.dto.RegisterRequest;
+import com.marqus.photomarketbackend.controller.AuthController;
+import com.marqus.photomarketbackend.dto.LoginRequestDto;
+import com.marqus.photomarketbackend.dto.LoginResponseDto;
+import com.marqus.photomarketbackend.dto.RegisterRequestDto;
+import com.marqus.photomarketbackend.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static com.marqus.photomarketbackend.util.StringGenerator.generateRandomString;
 
 @Component
 public class TestHelper {
 
     @Autowired
-    private MockMvc mockMvc;
+    private AuthController authController;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    public void register(RegisterRequestDto request) {
+        authController.register(request);
+    }
 
-    public void register(RegisterRequest request) throws Exception {
-        mockMvc.perform(post("/auth/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isCreated());
+    public LoginResponseDto registerAndLogin(Role role) {
+        var registerRequest = new RegisterRequestDto(
+                generateRandomString(10),
+                generateRandomString(5),
+                role.name(),
+                generateRandomString(10)
+        );
+        authController.register(registerRequest);
+
+        var loginRequest = new LoginRequestDto(registerRequest.username(), registerRequest.password());
+        return authController.login(loginRequest).getBody();
     }
 }

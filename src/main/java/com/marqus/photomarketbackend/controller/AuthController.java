@@ -1,8 +1,8 @@
 package com.marqus.photomarketbackend.controller;
 
-import com.marqus.photomarketbackend.dto.LoginResponse;
-import com.marqus.photomarketbackend.dto.RegisterRequest;
-import com.marqus.photomarketbackend.dto.LoginRequest;
+import com.marqus.photomarketbackend.dto.LoginResponseDto;
+import com.marqus.photomarketbackend.dto.RegisterRequestDto;
+import com.marqus.photomarketbackend.dto.LoginRequestDto;
 import com.marqus.photomarketbackend.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,13 +20,13 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<Void> register(@RequestBody RegisterRequest req) {
+    public ResponseEntity<Void> register(@RequestBody RegisterRequestDto req) {
         authService.register(req);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest req) {
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto req) {
         return ResponseEntity.ok(authService.login(req));
     }
 }
