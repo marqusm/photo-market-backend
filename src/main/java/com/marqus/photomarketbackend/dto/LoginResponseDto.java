@@ -1,7 +1,7 @@
 package com.marqus.photomarketbackend.dto;
 
 
-public record LoginResponse(
+public record LoginResponseDto(
         String token
 ) {
 }

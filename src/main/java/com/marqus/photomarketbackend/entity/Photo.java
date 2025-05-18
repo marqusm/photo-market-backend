@@ -1,8 +1,12 @@
 package com.marqus.photomarketbackend.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Collection;
 import java.util.UUID;
 
 @Entity
@@ -17,25 +21,21 @@ public class Photo {
     @GeneratedValue
     private UUID id;
 
-    @Column
     private UUID accountId;
 
-    @Column
     private UUID fileId;
 
-    @Column
     private String name;
 
-    @Column
-    private String displayableStatus;
+    @Enumerated(EnumType.STRING)
+    private DisplayableStatus displayableStatus;
 
-    @Column
-    private String purchasableStatus;
+    @Enumerated(EnumType.STRING)
+    private PurchasableStatus purchasableStatus;
 
-    @ElementCollection
-    @CollectionTable(name = "hashtag", joinColumns = @JoinColumn(name = "photo_id"))
-    @Column(name = "name")
-    private List<String> hashtags;
+    @Transient
+    private Collection<String> hashtags;
 
+    @Transient
     private Integer likeCount;
 }

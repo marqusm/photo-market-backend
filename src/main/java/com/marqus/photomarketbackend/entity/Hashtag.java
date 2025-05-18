@@ -9,21 +9,16 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Entity
-@Table(name = "file")
+@Table(name = "hashtag")
+@IdClass(HashtagId.class)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class File {
+public class Hashtag {
     @Id
-    @GeneratedValue
-    @Column(name="id")
-    private UUID id;
+    private UUID photoId;
 
-    @Column(name="size")
-    private Long size;
-
-//    @Lob
-//    @Column(name="content")
-//    private byte[] content;
+    @Id
+    private String name;
 }

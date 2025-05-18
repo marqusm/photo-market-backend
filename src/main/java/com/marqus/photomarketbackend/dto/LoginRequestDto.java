@@ -1,7 +1,7 @@
 package com.marqus.photomarketbackend.dto;
 
 
-public record LoginRequest(
+public record LoginRequestDto(
         String username,
         String password
 ) {
