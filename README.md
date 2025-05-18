@@ -9,9 +9,9 @@ The challenge description is in the [Challenge](Challenge.md) file.
 1. `✓` Design a SQL or NoSql schema for this platform, considering all uses cases
 2. `✓` Design the API endpoints for the platform
 3. `✓` Implement an Authentication and Authorization system for the platform (User registration and login)
-4. `X` Implement the Entities
-5. `X` Implement the API end point to upload a photo
-6. `X` Implement the API end point and cache (no libraries please, your own hand-rolled cache) for storing the hashtags of the photos
+4. `✓` Implement the Entities
+5. `X` Implement the API endpoint to upload a photo
+6. `X` Implement the API endpoint and cache (no libraries please, your own hand-rolled cache) for storing the hashtags of the photos
 
 
 ## Project commands
@@ -122,3 +122,8 @@ REST API is defined using OpenAPI standard and is present in file [openapi.yml](
 - POST    /orders/processing:
 - POST    /webhooks/transactions:
 - GET     /reports/transactions:
+
+
+## Entities
+
+Database entities are implemented in the "entity" package, using JPA. Only the entities needed for asked scenario will be implemented with using a join feature.

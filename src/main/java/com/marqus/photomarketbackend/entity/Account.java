@@ -16,7 +16,7 @@ import java.util.UUID;
 @Builder
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue
     private UUID id;
 
     @Column
