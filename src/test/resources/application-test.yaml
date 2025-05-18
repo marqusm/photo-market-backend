@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:test_db
+    username: photo_market
+    password:
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true

@@ -1,4 +1,5 @@
-openapi: 3.1.0
+openapi: 3.0.3
+
 info:
   title: Photo Market Backend API
   version: 1.0.0
@@ -21,7 +22,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AccountCreate'
+              $ref: '#/components/schemas/RegisterRequest'
       responses:
         '201':
           description: Registered
@@ -36,10 +37,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AccountRead'
+              $ref: '#/components/schemas/LoginRequest'
       responses:
         '200':
           description: Token returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
 
   /photos:
     post:
@@ -328,7 +333,7 @@ components:
       bearerFormat: JWT
 
   schemas:
-    AccountCreate:
+    RegisterRequest:
       type: object
       properties:
         username:
@@ -340,18 +345,18 @@ components:
           enum: [ ADMIN, SELLER, BUYER ]
         name:
           type: string
-    AccountRead:
+    LoginRequest:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
         username:
           type: string
-        role:
+        password:
           type: string
-          enum: [ ADMIN, SELLER, BUYER ]
-        name:
+
+    LoginResponse:
+      type: object
+      properties:
+        token:
           type: string
 
     File:

@@ -1,5 +1,6 @@
 # Compiled class file
 *.class
+build/
 
 # Log file
 *.log
@@ -7,6 +8,9 @@
 # Package Files #
 *.jar
 *.war
+
+# Project Files
+.gradle/
 
 # IntelliJ Idea
 .idea/
