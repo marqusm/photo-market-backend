@@ -9,8 +9,3 @@ services:
       POSTGRES_PASSWORD: tRIcAliONoUN
     ports:
       - "5432:5432"
-#    volumes:
-#      - photo-market-db-data:/var/lib/postgresql/data
-
-volumes:
-  photo-market-db-data:
